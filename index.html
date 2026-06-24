@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Muhammad Shujaat | Computational Bioinformatics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2044;
+    --accent: #1d9e75;
+    --accent-light: #e1f5ee;
+    --accent-mid: #0f6e56;
+    --text: #1a1a2e;
+    --muted: #5a6070;
+    --border: #e2e6ed;
+    --bg: #ffffff;
+    --surface: #f7f9fc;
+    --tag-bg: #eef2f7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg); font-size: 15px; line-height: 1.7; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 60px;
+  }
+  .nav-logo { font-weight: 600; font-size: 15px; color: var(--navy); letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 13.5px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--accent-mid); }
+
+  /* LAYOUT */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 5%; }
+  section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  /* HERO */
+  #hero {
+    padding-top: 130px; padding-bottom: 80px;
+    background: linear-gradient(160deg, #f0f7ff 0%, #e6f9f2 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-inner { display: flex; align-items: flex-start; gap: 3rem; flex-wrap: wrap; }
+  .avatar {
+    width: 120px; height: 120px; border-radius: 50%; flex-shrink: 0;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Lora', serif; font-size: 36px; color: #fff; font-weight: 600;
+    border: 3px solid var(--accent);
+  }
+  .hero-text h1 { font-family: 'Lora', serif; font-size: 2.4rem; font-weight: 600; color: var(--navy); line-height: 1.2; letter-spacing: -0.5px; }
+  .hero-text .role { font-size: 1rem; color: var(--accent-mid); font-weight: 500; margin: 0.4rem 0 0.8rem; }
+  .hero-text .affil { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.2rem; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.4rem; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: white; border: 1px solid var(--border);
+    border-radius: 20px; padding: 4px 12px; font-size: 12.5px; color: var(--muted);
+  }
+  .badge.accent { background: var(--accent-light); border-color: #9fe1cb; color: var(--accent-mid); }
+  .hero-links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-block; text-decoration: none; border-radius: 6px;
+    padding: 8px 18px; font-size: 13.5px; font-weight: 500; transition: all .2s;
+  }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: #1a3060; }
+  .btn-outline { border: 1px solid var(--border); color: var(--muted); background: white; }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent-mid); }
+
+  /* SECTION HEADER */
+  .sec-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-mid); font-weight: 600; margin-bottom: 0.5rem; }
+  .sec-title { font-family: 'Lora', serif; font-size: 1.7rem; color: var(--navy); font-weight: 600; margin-bottom: 2rem; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .stat-card { background: var(--surface); border-radius: 10px; padding: 1.25rem 1.5rem; border: 1px solid var(--border); }
+  .stat-num { font-family: 'Lora', serif; font-size: 2.2rem; color: var(--navy); font-weight: 600; }
+  .stat-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .about-bio { font-size: 15px; color: #2c3347; line-height: 1.8; }
+  .about-bio p { margin-bottom: 1rem; }
+
+  /* RESEARCH */
+  .research-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+  .r-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+  .r-icon { font-size: 22px; margin-bottom: 0.6rem; }
+  .r-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .r-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+  /* PUBLICATIONS */
+  .pub-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .filter-btn {
+    border: 1px solid var(--border); background: white; border-radius: 20px;
+    padding: 5px 14px; font-size: 12.5px; cursor: pointer; color: var(--muted); transition: all .2s;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+  .pub-list { display: flex; flex-direction: column; gap: 1px; }
+  .pub-item {
+    padding: 1.2rem 1.5rem; border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 10px; background: white; transition: box-shadow .2s;
+  }
+  .pub-item:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .pub-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 6px; }
+  .pub-year { font-size: 11.5px; color: white; background: var(--navy); border-radius: 4px; padding: 2px 8px; font-weight: 500; }
+  .pub-journal { font-size: 11.5px; color: var(--accent-mid); font-weight: 600; background: var(--accent-light); border-radius: 4px; padding: 2px 8px; }
+  .pub-type { font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; }
+  .pub-title { font-size: 14.5px; font-weight: 600; color: var(--navy); margin-bottom: 4px; line-height: 1.4; }
+  .pub-authors { font-size: 12.5px; color: var(--muted); margin-bottom: 6px; }
+  .pub-authors strong { color: var(--text); }
+  .pub-link { font-size: 12px; color: var(--accent-mid); text-decoration: none; font-weight: 500; }
+  .pub-link:hover { text-decoration: underline; }
+
+  /* TOOLS */
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .tool-card { border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; background: white; transition: all .2s; }
+  .tool-card:hover { border-color: var(--accent); }
+  .tool-name { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .tool-species { font-size: 12px; color: var(--accent-mid); font-weight: 500; margin-bottom: 6px; }
+  .tool-desc { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+  .tool-acc { display: inline-block; background: var(--accent-light); color: var(--accent-mid); border-radius: 4px; padding: 2px 8px; font-size: 11.5px; font-weight: 600; }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; padding-left: 1.5rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 2rem; padding-left: 1.5rem; }
+  .tl-dot { position: absolute; left: -2.05rem; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid white; box-shadow: 0 0 0 2px var(--accent); }
+  .tl-period { font-size: 11.5px; color: var(--accent-mid); font-weight: 600; margin-bottom: 3px; }
+  .tl-role { font-size: 15px; font-weight: 600; color: var(--navy); }
+  .tl-org { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .tl-desc { font-size: 13.5px; color: #3a4055; line-height: 1.6; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+  .skill-group h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tag { background: var(--tag-bg); border-radius: 5px; padding: 4px 10px; font-size: 12px; color: #3a4560; }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+  .contact-card h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 1rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 12px; font-size: 13.5px; }
+  .contact-item .ci-label { color: var(--muted); font-size: 12px; }
+  .contact-item .ci-val { color: var(--text); word-break: break-all; }
+
+  /* FOOTER */
+  footer { background: var(--navy); color: rgba(255,255,255,0.6); text-align: center; padding: 2rem; font-size: 12.5px; }
+  footer strong { color: white; }
+
+  @media (max-width: 600px) {
+    .hero-inner { flex-direction: column; gap: 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .hero-text h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Dr. Muhammad Shujaat</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="avatar">MS</div>
+      <div class="hero-text">
+        <h1>Muhammad Shujaat</h1>
+        <p class="role">Postdoctoral Researcher &amp; ML Group Lead</p>
+        <p class="affil">Shenzhen University, Shenzhen, China &nbsp;·&nbsp; PhD, Jeonbuk National University, South Korea</p>
+        <div class="hero-badges">
+          <span class="badge accent">🏆 Brain Korea (BK) Fellow 2023</span>
+          <span class="badge">9 Computational Tools</span>
+          <span class="badge">8 First-author SCI Papers</span>
+          <span class="badge">Bioinformatics · Deep Learning · Genomics</span>
+        </div>
+        <div class="hero-links">
+          <a class="btn btn-primary" href="#publications">Publications</a>
+          <a class="btn btn-outline" href="#tools">Web Tools</a>
+          <a class="btn btn-outline" href="#contact">Contact</a>
+          <a class="btn btn-outline" href="mailto:your-email@example.com">Email Me</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="sec-label">About</p>
+    <h2 class="sec-title">Overview</h2>
+    <div class="about-grid" style="margin-bottom:2.5rem;">
+      <div class="stat-card"><div class="stat-num">9</div><div class="stat-desc">Publicly available computational tools</div></div>
+      <div class="stat-card"><div class="stat-num">8</div><div class="stat-desc">First-author SCI publications</div></div>
+      <div class="stat-card"><div class="stat-num">586K+</div><div class="stat-desc">Archaeal promoters annotated</div></div>
+      <div class="stat-card"><div class="stat-num">6</div><div class="stat-desc">Organisms / domains covered</div></div>
+    </div>
+    <div class="about-bio">
+      <p>I am a Postdoctoral Researcher and Machine Learning Group Lead at Shenzhen University, China. I hold a PhD in Artificial Intelligence from Jeonbuk National University, South Korea, where I was supported by the prestigious <strong>Brain Korea (BK) Fellowship</strong> in 2023. My master's and bachelor's degrees in Computer Sciences are from Bahria University, Islamabad, Pakistan.</p>
+      <p>My research sits at the intersection of <strong>deep learning and computational genomics</strong>. During my PhD I independently built nine state-of-the-art tools for regulatory sequence prediction — specifically promoter identification and classification — across bacteria, yeast, rice, maize, phage, and archaea, each deployed as a publicly accessible web server. A unifying theme across this work is <strong>explainability</strong>: I integrate SHAP and motif analysis to ground model predictions in biologically meaningful sequence features.</p>
+      <p>In my current postdoctoral role I have expanded into <strong>protein language models</strong> (ESM, ProtBERT), transformer-based architectures for sequence representation, and <strong>generative AI pipelines</strong> (VAEs, diffusion models) for novel enzyme discovery.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="container">
+    <p class="sec-label">Research</p>
+    <h2 class="sec-title">Research Interests</h2>
+    <div class="research-areas">
+      <div class="r-card">
+        <div class="r-icon">🧬</div>
+        <div class="r-title">Regulatory Genomics</div>
+        <div class="r-desc">Promoter prediction and classification across prokaryotes, eukaryotes, and archaea using CNN and hybrid architectures.</div>
+      </div>
+      <div class="r-card">
+        <div class="r-icon">🤖</div>
+        <div class="r-title">Deep Learning for Biology</div>
+        <div class="r-desc">CNN, BiLSTM with attention, stacking ensembles, and transformer models applied to biological sequence analysis.</div>
+      </div>
+      <div class="r-card">
+        <div class="r-icon">🔬</div>
+        <div class="r-title">Explainable AI (XAI)</div>
+        <div class="r-desc">SHAP-based interpretability, motif extraction, and biological validation to bridge model predictions with mechanistic insight.</div>
+      </div>
+      <div class="r-card">
+        <div class="r-icon">🧪</div>
+        <div class="r-title">Generative AI &amp; Enzyme Discovery</div>
+        <div class="r-desc">VAEs and diffusion models for generating novel enzyme sequences with desired functional properties.</div>
+      </div>
+      <div class="r-card">
+        <div class="r-icon">🦠</div>
+        <div class="r-title">Protein Language Models</div>
+        <div class="r-desc">Fine-tuning ESM and ProtBERT for enzyme function prediction and protein–protein interaction modelling.</div>
+      </div>
+      <div class="r-card">
+        <div class="r-icon">👁️</div>
+        <div class="r-title">Medical Image Analysis</div>
+        <div class="r-desc">Deep learning for diabetic retinopathy detection via exudate segmentation in retinal fundus images.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <p class="sec-label">Publications</p>
+    <h2 class="sec-title">Selected Publications</h2>
+
+    <div class="pub-list">
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2025</span>
+          <span class="pub-journal">BMC Genomics</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">Characterization of archaeal promoters using explainable and web-based CNN model</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">CNN + k-mer encoding · SHAP explainability · 586K promoters annotated across 478 archaeal genomes · AUC 0.95</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2024</span>
+          <span class="pub-journal">Current Bioinformatics</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">iProm-Yeast: Prediction tool for yeast promoters based on ML stacking</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">XGBoost + Adaboost + SVC stacking · PseDNC encoding · Cross-species validation · MCC 0.72</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2023</span>
+          <span class="pub-journal">Cells</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">iProm-Sigma54: A CNN-based prediction tool for sigma54 promoters</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">95.45% accuracy · 96.53% sensitivity · Motif analysis &amp; mutation scanning · MCC 0.848</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2022</span>
+          <span class="pub-journal">Frontiers in Microbiology</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">iProm-phage: A two-layer model to identify phage promoters and their types using CNN</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">Two-layer CNN · 10 encoding schemes evaluated · Layer 1: 95.68% · Layer 2: 97.25%</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2022</span>
+          <span class="pub-journal">Current Bioinformatics</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">iProm70: A CNN-based tool for sigma70 promoter classification</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">96.10% accuracy · MCC 0.923 · PWM motif visualisation · Independent test: 98.12%</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2022</span>
+          <span class="pub-journal">Genomics</span>
+          <span class="pub-type">Co-Author</span>
+        </div>
+        <div class="pub-title">iProm-Zea: Identification and classification of maize promoters using CNN</div>
+        <div class="pub-authors">et al., <strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">TATA / TATA-less classification · Zea mays genome</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2021</span>
+          <span class="pub-journal">IEEE Access</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">Cr-Prom: A CNN-based model for the prediction of rice promoters</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">99.1% accuracy · MCC 0.9839 · PlantProm + RAP-DB datasets · SGD optimizer</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2021</span>
+          <span class="pub-journal">Intelligent Automation &amp; Soft Computing</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">Intelligent and Integrated Framework for Exudate Detection in Retinal Fundus Images</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">AlexNet · 98.88% accuracy on DIARETDB1 · Diabetic retinopathy · 600 fundus images</div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-meta">
+          <span class="pub-year">2020</span>
+          <span class="pub-journal">Genes</span>
+          <span class="pub-type">First Author</span>
+        </div>
+        <div class="pub-title">pcPromoter-CNN: A CNN-based prediction and classification of promoters</div>
+        <div class="pub-authors"><strong>Muhammad Shujaat</strong>, et al.</div>
+        <div style="font-size:12.5px;color:var(--muted);">Cascaded binary classifiers · 6 sigma types · 90.11% accuracy · MCC 0.802 · RegulonDB</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="container">
+    <p class="sec-label">Software</p>
+    <h2 class="sec-title">Computational Tools &amp; Web Servers</h2>
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-name">iProm-Archaea</div>
+        <div class="tool-species">Archaea (3 species)</div>
+        <div class="tool-desc">CNN + k-mer encoding with SHAP explainability. Annotated 586K promoters from 478 unannotated archaeal genomes.</div>
+        <span class="tool-acc">92% accuracy</span>
+        <br><a href="https://ipromarchaea.alqaswasservices.com/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">iProm-Yeast</div>
+        <div class="tool-species">Saccharomyces cerevisiae</div>
+        <div class="tool-desc">ML stacking ensemble (XGBoost + AdaBoost + SVC + LR meta) with PseDNC encoding. Cross-species validation on S. pombe.</div>
+        <span class="tool-acc">90.47% accuracy</span>
+        <br><a href="http://nscbio.jbnu.ac.kr/tools/iProm-yeast/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">iProm-Sigma54</div>
+        <div class="tool-species">Bacteria (sigma54)</div>
+        <div class="tool-desc">CNN with motif analysis and computational mutation scanning. Uses Pro54DB. Validated with class-weight balancing.</div>
+        <span class="tool-acc">95.45% accuracy</span>
+        <br><a href="http://nscbio.jbnu.ac.kr/tools/iProm-Sigma54/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">iProm70 (Prom70-CNN)</div>
+        <div class="tool-species">Bacteria (sigma70)</div>
+        <div class="tool-desc">3-layer CNN with PWM motif visualisation. Trained on RegulonDB. Independent test accuracy 98.12%.</div>
+        <span class="tool-acc">96.10% accuracy</span>
+        <br><a href="http://nscbio.jbnu.ac.kr/tools/Prom70-CNN/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">iProm-phage</div>
+        <div class="tool-species">Bacteriophage (69 phages)</div>
+        <div class="tool-desc">Two-layer CNN for promoter identification and host vs. phage classification. Novel challenging negative dataset method.</div>
+        <span class="tool-acc">97.25% (Layer 2)</span>
+        <br><a href="http://nscbio.jbnu.ac.kr/tools/iProm-phage/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Cr-Prom</div>
+        <div class="tool-species">Oryza sativa (Rice)</div>
+        <div class="tool-desc">CNN with batch normalisation and L2 regularisation. PlantProm + RAP-DB dataset. SGD optimizer with momentum.</div>
+        <span class="tool-acc">99.1% accuracy</span>
+        <br><a href="http://nscbio.jbnu.ac.kr/tools/Cr-Prom/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">pcPromoter-CNN</div>
+        <div class="tool-species">Bacteria (6 sigma types)</div>
+        <div class="tool-desc">Cascaded binary classifier pipeline for multi-class sigma factor classification. RegulonDB v9.3.</div>
+        <span class="tool-acc">90.11% accuracy</span>
+        <br><a href="http://nscbio.jbnu.ac.kr/tools/pcPromoter-CNN/" target="_blank" style="font-size:12px;color:var(--accent-mid);text-decoration:none;margin-top:6px;display:inline-block;">🔗 Visit Web Server</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="sec-label">Experience &amp; Education</p>
+    <h2 class="sec-title">Career Timeline</h2>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">2024 – Present</div>
+        <div class="tl-role">Postdoctoral Researcher &amp; ML Group Lead</div>
+        <div class="tl-org">Shenzhen University, Shenzhen, China</div>
+        <div class="tl-desc">Leading ML research on generative AI pipelines for enzyme discovery; protein language models (ESM, ProtBERT); transformer architectures for biological sequence representation; reproducible PyTorch/TensorFlow pipelines on HPC.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">2019 – 2024</div>
+        <div class="tl-role">PhD in Artificial Intelligence</div>
+        <div class="tl-org">Jeonbuk National University, South Korea &nbsp;·&nbsp; BK Fellow 2023</div>
+        <div class="tl-desc">Developed 9 deep learning tools for promoter prediction across 6 organisms. Published 8 first-author papers. Deployed public web servers for all tools. Received Research Acknowledgment Certificate (2022).</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">2018 – 2020</div>
+        <div class="tl-role">Lab Engineer (Teaching)</div>
+        <div class="tl-org">Bahria University Lahore, Pakistan</div>
+        <div class="tl-desc">Conducted lab sessions in Digital Image Processing, Artificial Intelligence, Computer Programming, and Digital Logic Design. Designed lab manuals, mentored students, and guided final-year projects.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">2016 – 2018</div>
+        <div class="tl-role">MS in Computer Sciences</div>
+        <div class="tl-org">Bahria University, Islamabad, Pakistan</div>
+        <div class="tl-desc">Thesis: Intelligent framework for exudate detection in retinal fundus images using AlexNet. Achieved 98.88% accuracy on DIARETDB1 benchmark. Also served as Research Assistant conducting lab sessions.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-period">2012 – 2016</div>
+        <div class="tl-role">BS in Computer Sciences</div>
+        <div class="tl-org">Bahria University, Islamabad, Pakistan</div>
+        <div class="tl-desc">Foundation in computer science, algorithms, and software engineering.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="sec-label">Technical Skills</p>
+    <h2 class="sec-title">Skills &amp; Tools</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">R</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">MATLAB</span>
+          <span class="skill-tag">Linux/Bash</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Deep Learning</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">Keras</span>
+          <span class="skill-tag">CNN</span>
+          <span class="skill-tag">BiLSTM</span>
+          <span class="skill-tag">Transformers</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Machine Learning</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Scikit-learn</span>
+          <span class="skill-tag">XGBoost</span>
+          <span class="skill-tag">SVM</span>
+          <span class="skill-tag">Ensemble Methods</span>
+          <span class="skill-tag">SHAP</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Bioinformatics</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Biopython</span>
+          <span class="skill-tag">ESM</span>
+          <span class="skill-tag">ProtBERT</span>
+          <span class="skill-tag">antiSMASH</span>
+          <span class="skill-tag">CD-HIT</span>
+          <span class="skill-tag">EPDnew</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Data &amp; Viz</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">Logomaker</span>
+          <span class="skill-tag">SciPy</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Other</h4>
+        <div class="skill-tags">
+          <span class="skill-tag">Git/GitHub</span>
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">HPC/SLURM</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">MySQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="container">
+    <p class="sec-label">Honours</p>
+    <h2 class="sec-title">Awards &amp; Recognition</h2>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:flex;gap:1rem;align-items:flex-start;padding:1.25rem 1.5rem;border:1px solid var(--border);border-radius:10px;background:white;">
+        <div style="font-size:28px;flex-shrink:0;">🏆</div>
+        <div>
+          <div style="font-size:14.5px;font-weight:600;color:var(--navy);">Brain Korea (BK) Fellowship — 2023</div>
+          <div style="font-size:13px;color:var(--muted);">Jeonbuk National University, South Korea · Awarded for outstanding research excellence during doctoral studies.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:1rem;align-items:flex-start;padding:1.25rem 1.5rem;border:1px solid var(--border);border-radius:10px;background:white;">
+        <div style="font-size:28px;flex-shrink:0;">📜</div>
+        <div>
+          <div style="font-size:14.5px;font-weight:600;color:var(--navy);">Research Acknowledgment Certificate — 2022</div>
+          <div style="font-size:13px;color:var(--muted);">Department of Electronics and Information Engineering, Jeonbuk National University · Awarded for commitment to research excellence.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="sec-label">Contact</p>
+    <h2 class="sec-title">Get in Touch</h2>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h4>Current Position</h4>
+        <div class="contact-item"><div><div class="ci-label">Role</div><div class="ci-val">Postdoctoral Researcher &amp; ML Group Lead</div></div></div>
+        <div class="contact-item"><div><div class="ci-label">Institution</div><div class="ci-val">Shenzhen University, Shenzhen, China</div></div></div>
+        <div class="contact-item"><div><div class="ci-label">Email</div><div class="ci-val"><a href="mailto:your-email@example.com" style="color:var(--accent-mid);">your-email@example.com</a></div></div></div>
+      </div>
+      <div class="contact-card">
+        <h4>Online Profiles</h4>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="https://scholar.google.com" target="_blank" class="btn btn-outline" style="display:block;text-align:center;">Google Scholar</a>
+          <a href="https://orcid.org" target="_blank" class="btn btn-outline" style="display:block;text-align:center;">ORCID</a>
+          <a href="https://linkedin.com" target="_blank" class="btn btn-outline" style="display:block;text-align:center;">LinkedIn</a>
+          <a href="https://github.com" target="_blank" class="btn btn-outline" style="display:block;text-align:center;">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Dr. Muhammad Shujaat</strong> · Postdoctoral Researcher, Shenzhen University, China<br>
+  <span style="font-size:11px;margin-top:6px;display:inline-block;">PhD in Artificial Intelligence · Jeonbuk National University, South Korea · BK Fellow 2023</span>
+</footer>
+
+</body>
+</html>
